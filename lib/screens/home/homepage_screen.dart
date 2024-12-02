@@ -54,23 +54,64 @@ class _HomepageState extends State<Homepage> {
         title: const Text('Pet Care Pro'),
         backgroundColor: Colors.green,
         actions: [
-          DropdownButton<String>(
-            value: _selectedPetId,
-            hint: const Text(
-              'Select Pet',
-              style: TextStyle(color: Colors.white),
+          Padding(
+            padding: const EdgeInsets.symmetric(
+                vertical: 8,
+                horizontal: 8), // Adjusts position within the AppBar
+            child: Container(
+              height: kToolbarHeight -
+                  16, // Matches AppBar height with margin adjustments
+              padding: const EdgeInsets.symmetric(horizontal: 12),
+              decoration: BoxDecoration(
+                color: const Color.fromARGB(255, 252, 244, 244),
+                borderRadius: BorderRadius.circular(25),
+                border: Border.all(
+                    color: Colors.green, width: 1.5), // Subtle border
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.1),
+                    spreadRadius: 1,
+                    blurRadius: 3,
+                    offset: const Offset(0, 2),
+                  ),
+                ],
+              ),
+              child: DropdownButtonHideUnderline(
+                child: DropdownButton<String>(
+                  value: _selectedPetId,
+                  hint: const Text(
+                    'Select Pet',
+                    style: TextStyle(
+                      color: Colors.black54,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  items: _pets.map((pet) {
+                    return DropdownMenuItem<String>(
+                      value: pet['id'] as String,
+                      child: Text(
+                        pet['name'],
+                        style: const TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    );
+                  }).toList(),
+                  onChanged: (value) {
+                    setState(() {
+                      _selectedPetId = value;
+                    });
+                  },
+                  icon: const Icon(
+                    Icons.arrow_drop_down,
+                    color: Colors.green,
+                  ),
+                  dropdownColor: Colors.white,
+                ),
+              ),
             ),
-            items: _pets.map((pet) {
-              return DropdownMenuItem<String>(
-                value: pet['id'] as String,
-                child: Text(pet['name']),
-              );
-            }).toList(),
-            onChanged: (value) {
-              setState(() {
-                _selectedPetId = value;
-              });
-            },
           ),
           IconButton(
             icon: const Icon(Icons.person),
@@ -78,7 +119,8 @@ class _HomepageState extends State<Homepage> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => const UserProfileScreen()),
+                  builder: (context) => const UserProfileScreen(),
+                ),
               );
             },
           ),
@@ -91,13 +133,13 @@ class _HomepageState extends State<Homepage> {
           const PetFoodScreen(),
           const PetMarketScreen(),
           PetProfileScreen(),
-          const SettingsScreen(),
           if (_selectedPetId != null)
             PetHealthRecordScreen(
                 key: ValueKey(_selectedPetId), petId: _selectedPetId!)
           else
             const Center(
                 child: Text('Please select a pet to view health records')),
+          const SettingsScreen(),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
@@ -119,12 +161,12 @@ class _HomepageState extends State<Homepage> {
             label: 'Pet Profile',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            label: 'Settings',
-          ),
-          BottomNavigationBarItem(
             icon: Icon(Icons.health_and_safety),
             label: 'Health Records',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.settings),
+            label: 'Settings',
           ),
         ],
         currentIndex: _selectedIndex,

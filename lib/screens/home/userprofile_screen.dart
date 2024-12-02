@@ -71,7 +71,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('User Profile'),
-        backgroundColor: Colors.teal,
+        backgroundColor: Colors.green,
         actions: [
           if (!_isEditing)
             IconButton(
@@ -130,6 +130,13 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                     const SizedBox(height: 16),
                     if (_isEditing)
                       ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Color.fromARGB(255, 110, 223, 115),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          textStyle: const TextStyle(color: Colors.white),
+                        ),
                         onPressed: _isSaving ? null : _saveProfile,
                         child: _isSaving
                             ? const CircularProgressIndicator()

@@ -8,6 +8,7 @@ class PetMarketScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Pet Market'),
+        backgroundColor: const Color.fromARGB(255, 232, 235, 232),
       ),
       body: GridView.count(
         padding: const EdgeInsets.all(10),

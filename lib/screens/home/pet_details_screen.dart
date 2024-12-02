@@ -8,19 +8,19 @@ class PetDetailsScreen extends StatelessWidget {
   final double price;
 
   const PetDetailsScreen({
-    Key? key,
+    super.key,
     required this.title,
     required this.imagePath,
     required this.description,
     this.supermarket = 'Pet Supermarket', // default supermarket
     required this.price,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
     final Map arguments = ModalRoute.of(context)!.settings.arguments as Map;
     return Scaffold(
-      backgroundColor: Colors.grey[100],
+      backgroundColor: const Color.fromARGB(255, 232, 235, 232),
       appBar: AppBar(
         title: Text(arguments['title']),
         backgroundColor: Colors.green,
@@ -47,7 +47,7 @@ class PetDetailsScreen extends StatelessWidget {
                   alignment: Alignment.center,
                   child: Text(
                     arguments['title'],
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
                       color: Colors.white,
@@ -66,14 +66,14 @@ class PetDetailsScreen extends StatelessWidget {
                 children: [
                   Text(
                     arguments['description'],
-                    style: TextStyle(fontSize: 16, color: Colors.black87),
+                    style: const TextStyle(fontSize: 16, color: Colors.black87),
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   Text(
                     'Supermarket: ${arguments['supermarket'] ?? 'Pet Supermarket'}',
                     style: TextStyle(fontSize: 14, color: Colors.grey[700]),
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   Text(
                     'Price: \$${arguments['price'].toStringAsFixed(2)}',
                     style: TextStyle(
@@ -82,13 +82,13 @@ class PetDetailsScreen extends StatelessWidget {
                       color: Colors.green[800],
                     ),
                   ),
-                  Spacer(),
+                  const Spacer(),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       ElevatedButton.icon(
-                        icon: Icon(Icons.add_shopping_cart),
-                        label: Text('Add to Cart'),
+                        icon: const Icon(Icons.add_shopping_cart),
+                        label: const Text('Add to Cart'),
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.green,
                           shape: RoundedRectangleBorder(
@@ -99,8 +99,8 @@ class PetDetailsScreen extends StatelessWidget {
                         },
                       ),
                       ElevatedButton.icon(
-                        icon: Icon(Icons.payment),
-                        label: Text('Buy Now'),
+                        icon: const Icon(Icons.payment),
+                        label: const Text('Buy Now'),
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.orange,
                           shape: RoundedRectangleBorder(

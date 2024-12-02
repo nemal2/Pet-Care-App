@@ -71,7 +71,7 @@ class _PetHealthRecordScreenState extends State<PetHealthRecordScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Pet Health Records'),
-        backgroundColor: Colors.green,
+        backgroundColor: const Color.fromARGB(255, 232, 235, 232),
       ),
       body: Column(
         children: [
@@ -93,7 +93,6 @@ class _PetHealthRecordScreenState extends State<PetHealthRecordScreen> {
                       subtitle: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text('Status: ${record['status'] ?? 'N/A'}'),
                           Text('Date: ${record['date'] ?? 'N/A'}'),
                           Text('Treatment: ${record['treatment'] ?? 'N/A'}'),
                           Text('Vet: ${record['vet'] ?? 'N/A'}'),
