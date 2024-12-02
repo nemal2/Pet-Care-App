@@ -1,6 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:pet_care_app/screens/home/healthrecord_screen.dart';
 import 'package:pet_care_app/screens/home/homepage_screen.dart';
 import 'package:pet_care_app/screens/home/pet_details_screen.dart';
 import 'package:pet_care_app/screens/home/petfood_screen.dart';
@@ -14,6 +13,7 @@ import 'package:pet_care_app/screens/settings/settings_screen.dart';
 import 'screens/onboarding/onboarding_screen.dart';
 import 'screens/login/login_screen.dart';
 import 'screens/login/signup_screen.dart';
+import 'screens/home/healthrecord_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -44,8 +44,7 @@ class MyApp extends StatelessWidget {
                 builder: (context) => const SignupScreen());
           case '/home':
             return MaterialPageRoute(
-              builder: (context) => Homepage(
-                  petId: 'default-pet-id'), // Pass a default petId here
+              builder: (context) => const Homepage(), // No petId passed
             );
           case '/welcome':
             return MaterialPageRoute(builder: (context) => WelcomeScreen());
@@ -96,8 +95,7 @@ class MyApp extends StatelessWidget {
               );
             } else {
               // Handle the case where arguments are not provided or are incorrect
-              return MaterialPageRoute(
-                  builder: (context) => Homepage(petId: 'default-pet-id'));
+              return MaterialPageRoute(builder: (context) => const Homepage());
             }
           default:
             return null;

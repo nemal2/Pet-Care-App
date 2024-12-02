@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:pet_care_app/services/vaccine_service.dart';
 
 class AddRecordScreen extends StatefulWidget {
-  final Map<String, dynamic>? initialData;
   final Function(Map<String, dynamic>) onRecordAdded;
-  final Function(Map<String, dynamic>)? onRecordUpdated;
+  final String petId;
 
   const AddRecordScreen({
-    this.initialData,
     required this.onRecordAdded,
-    this.onRecordUpdated,
-    Key? key,
-  }) : super(key: key);
+    required this.petId,
+    super.key,
+  });
 
   @override
+  // ignore: library_private_types_in_public_api
   _AddRecordScreenState createState() => _AddRecordScreenState();
 }
 
@@ -26,81 +26,105 @@ class _AddRecordScreenState extends State<AddRecordScreen> {
   @override
   void initState() {
     super.initState();
-    _titleController =
-        TextEditingController(text: widget.initialData?['title'] ?? '');
-    _dateController =
-        TextEditingController(text: widget.initialData?['date'] ?? '');
-    _treatmentController =
-        TextEditingController(text: widget.initialData?['treatment'] ?? '');
-    _vetController =
-        TextEditingController(text: widget.initialData?['vet'] ?? '');
+    _titleController = TextEditingController();
+    _dateController = TextEditingController();
+    _treatmentController = TextEditingController();
+    _vetController = TextEditingController();
   }
 
-  void _submitForm() {
+  Future<void> _selectDate(BuildContext context) async {
+    DateTime? pickedDate = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2100),
+    );
+
+    if (pickedDate != null) {
+      setState(() {
+        _dateController.text =
+            "${pickedDate.year}-${pickedDate.month.toString().padLeft(2, '0')}-${pickedDate.day.toString().padLeft(2, '0')}";
+      });
+    }
+  }
+
+  void _submitForm() async {
     if (_formKey.currentState!.validate()) {
-      final record = {
+      final newRecord = {
         'title': _titleController.text,
-        'status': widget.initialData == null
-            ? 'Pending'
-            : widget.initialData!['status'],
         'date': _dateController.text,
         'treatment': _treatmentController.text,
         'vet': _vetController.text,
       };
 
-      if (widget.initialData == null) {
-        widget.onRecordAdded(record);
-      } else {
-        widget.onRecordUpdated!(record);
-      }
+      // Add the new record to the backend
+      await VaccineService().addHealthRecord(widget.petId, newRecord);
 
-      Navigator.pop(context);
+      widget.onRecordAdded(
+          newRecord); // Callback to update the UI on the PetHealthRecordScreen
+
+      // ignore: use_build_context_synchronously
+      Navigator.pop(context); // Go back to the previous screen
     }
+  }
+
+  @override
+  void dispose() {
+    _titleController.dispose();
+    _dateController.dispose();
+    _treatmentController.dispose();
+    _vetController.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title:
-            Text(widget.initialData == null ? 'Add New Record' : 'Edit Record'),
+        title: const Text('Add Health Record'),
+        backgroundColor: Colors.green,
       ),
       body: Padding(
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16.0),
         child: Form(
           key: _formKey,
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               TextFormField(
                 controller: _titleController,
-                decoration: InputDecoration(labelText: 'Title'),
+                decoration: const InputDecoration(labelText: 'Title'),
                 validator: (value) =>
                     value!.isEmpty ? 'Please enter a title' : null,
               ),
               TextFormField(
                 controller: _dateController,
-                decoration: InputDecoration(labelText: 'Date (YYYY-MM-DD)'),
+                decoration: const InputDecoration(
+                  labelText: 'Date',
+                  suffixIcon: Icon(Icons.calendar_today),
+                ),
+                readOnly: true,
+                onTap: () => _selectDate(context),
                 validator: (value) =>
-                    value!.isEmpty ? 'Please enter a date' : null,
+                    value!.isEmpty ? 'Please select a date' : null,
               ),
               TextFormField(
                 controller: _treatmentController,
-                decoration: InputDecoration(labelText: 'Treatment'),
+                decoration: const InputDecoration(labelText: 'Treatment'),
                 validator: (value) =>
                     value!.isEmpty ? 'Please enter a treatment' : null,
               ),
               TextFormField(
                 controller: _vetController,
-                decoration: InputDecoration(labelText: 'Vet Name'),
+                decoration: const InputDecoration(labelText: 'Vet Name'),
                 validator: (value) =>
                     value!.isEmpty ? 'Please enter a vet name' : null,
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               ElevatedButton(
                 onPressed: _submitForm,
-                child: Text(widget.initialData == null
-                    ? 'Add Record'
-                    : 'Update Record'),
+                style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
+                child: const Text('Add Record'),
               ),
             ],
           ),

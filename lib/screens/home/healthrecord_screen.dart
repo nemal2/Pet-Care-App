@@ -1,21 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:pet_care_app/screens/home/AddRecScreen.dart';
+import 'package:pet_care_app/services/pet_service.dart';
 import 'package:pet_care_app/services/vaccine_service.dart';
 
 class PetHealthRecordScreen extends StatefulWidget {
+  const PetHealthRecordScreen({super.key, required this.petId});
+
   final String petId;
 
-  const PetHealthRecordScreen({required this.petId, Key? key})
-      : super(key: key);
-
   @override
+  // ignore: library_private_types_in_public_api
   _PetHealthRecordScreenState createState() => _PetHealthRecordScreenState();
 }
 
 class _PetHealthRecordScreenState extends State<PetHealthRecordScreen> {
+  final PetService _petService = PetService();
   final VaccineService _vaccineService = VaccineService();
+
   List<Map<String, dynamic>> _records = [];
-  bool _isLoading = true;
+  bool _isLoadingRecords = true;
 
   @override
   void initState() {
@@ -24,56 +27,40 @@ class _PetHealthRecordScreenState extends State<PetHealthRecordScreen> {
   }
 
   Future<void> _fetchHealthRecords() async {
+    setState(() {
+      _isLoadingRecords = true;
+    });
+
     try {
       final records = await _vaccineService.getHealthRecords(widget.petId);
       setState(() {
         _records = records;
-        _isLoading = false;
+        _isLoadingRecords = false;
       });
     } catch (e) {
-      print('Error fetching records: $e');
+      print('Error fetching health records: $e');
       setState(() {
-        _isLoading = false;
+        _isLoadingRecords = false;
       });
     }
   }
 
-  Future<void> _addHealthRecord(Map<String, dynamic> newRecord) async {
-    try {
-      await _vaccineService.addHealthRecord(widget.petId, newRecord);
-      _fetchHealthRecords();
-    } catch (e) {
-      print('Error adding record: $e');
-    }
-  }
-
-  Future<void> _editHealthRecord(
-      String recordId, Map<String, dynamic> updatedRecord) async {
-    try {
-      await _vaccineService.updateHealthRecord(
-          widget.petId, recordId, updatedRecord);
-      _fetchHealthRecords();
-    } catch (e) {
-      print('Error editing record: $e');
-    }
-  }
-
-  void _navigateToAddEditRecordScreen({Map<String, dynamic>? record}) async {
+  void _addNewRecord() async {
     final result = await Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) => AddRecordScreen(
-          initialData: record,
-          onRecordAdded: (newRecord) => _addHealthRecord(newRecord),
-          onRecordUpdated: (updatedRecord) {
-            if (record != null) {
-              _editHealthRecord(record['id'], updatedRecord);
-            }
+          onRecordAdded: (newRecord) {
+            setState(() {
+              _records.insert(0, newRecord);
+            });
           },
+          petId: widget.petId,
         ),
       ),
     );
 
+    // Trigger the health records refresh if a new record is added.
     if (result != null) {
       _fetchHealthRecords();
     }
@@ -83,44 +70,53 @@ class _PetHealthRecordScreenState extends State<PetHealthRecordScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Health Records'),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.add),
-            onPressed: () => _navigateToAddEditRecordScreen(),
+        title: const Text('Pet Health Records'),
+        backgroundColor: Colors.green,
+      ),
+      body: Column(
+        children: [
+          if (_isLoadingRecords)
+            const Center(child: CircularProgressIndicator())
+          else if (_records.isEmpty)
+            const Center(child: Text('No records available'))
+          else
+            Expanded(
+              child: ListView.builder(
+                itemCount: _records.length,
+                itemBuilder: (context, index) {
+                  final record = _records[index];
+                  return Card(
+                    margin:
+                        const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
+                    child: ListTile(
+                      title: Text(record['title'] ?? 'Untitled Record'),
+                      subtitle: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text('Status: ${record['status'] ?? 'N/A'}'),
+                          Text('Date: ${record['date'] ?? 'N/A'}'),
+                          Text('Treatment: ${record['treatment'] ?? 'N/A'}'),
+                          Text('Vet: ${record['vet'] ?? 'N/A'}'),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: ElevatedButton.icon(
+              onPressed: _addNewRecord,
+              icon: const Icon(Icons.add),
+              label: const Text('Add New Record'),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.green,
+                textStyle: const TextStyle(color: Colors.white),
+              ),
+            ),
           ),
         ],
-      ),
-      body: _isLoading
-          ? Center(child: CircularProgressIndicator())
-          : ListView.builder(
-              itemCount: _records.length,
-              itemBuilder: (context, index) {
-                final record = _records[index];
-                return _buildHealthRecordItem(record);
-              },
-            ),
-    );
-  }
-
-  Widget _buildHealthRecordItem(Map<String, dynamic> record) {
-    return Card(
-      margin: EdgeInsets.symmetric(vertical: 8, horizontal: 10),
-      child: ListTile(
-        title: Text(record['title'] ?? 'Unknown'),
-        subtitle: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text('Status: ${record['status'] ?? 'Unknown'}'),
-            Text('Date: ${record['date'] ?? 'Unknown'}'),
-            Text('Treatment: ${record['treatment'] ?? 'Unknown'}'),
-            Text('Vet: ${record['vet'] ?? 'Unknown'}'),
-          ],
-        ),
-        trailing: IconButton(
-          icon: Icon(Icons.edit, color: Colors.blue),
-          onPressed: () => _navigateToAddEditRecordScreen(record: record),
-        ),
       ),
     );
   }

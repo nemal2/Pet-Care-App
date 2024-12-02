@@ -46,6 +46,7 @@ class PetService {
         .doc(user.uid)
         .collection('pets')
         .get();
+
     return snapshot.docs
         .map((doc) => {...doc.data() as Map<String, dynamic>, 'id': doc.id})
         .toList();

@@ -39,21 +39,4 @@ class VaccineService {
         .collection('healthRecords')
         .add(newRecord);
   }
-
-  Future<void> updateHealthRecord(
-      String petId, String recordId, Map<String, dynamic> updatedRecord) async {
-    User? user = FirebaseAuth.instance.currentUser;
-    if (user == null) {
-      throw Exception('User not logged in');
-    }
-
-    await _firestore
-        .collection('users')
-        .doc(user.uid)
-        .collection('pets')
-        .doc(petId)
-        .collection('healthRecords')
-        .doc(recordId)
-        .update(updatedRecord);
-  }
 }
