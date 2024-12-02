@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 
 class PetMarketScreen extends StatelessWidget {
+  const PetMarketScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Pet Market'),
+        title: const Text('Pet Market'),
       ),
       body: GridView.count(
-        padding: EdgeInsets.all(10),
+        padding: const EdgeInsets.all(10),
         crossAxisCount: 2,
         crossAxisSpacing: 10,
         mainAxisSpacing: 10,
@@ -51,7 +53,8 @@ class PetMarketScreen extends StatelessWidget {
           children: [
             Expanded(
               child: ClipRRect(
-                borderRadius: BorderRadius.vertical(top: Radius.circular(15)),
+                borderRadius:
+                    const BorderRadius.vertical(top: Radius.circular(15)),
                 child: Image.asset(imagePath, fit: BoxFit.cover),
               ),
             ),
@@ -59,7 +62,7 @@ class PetMarketScreen extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: Text(
                 title,
-                style: TextStyle(
+                style: const TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
                     color: Colors.black),
@@ -69,23 +72,23 @@ class PetMarketScreen extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
               child: Text(
                 '\$$price',
-                style: TextStyle(fontSize: 16, color: Colors.green),
+                style: const TextStyle(fontSize: 16, color: Colors.green),
               ),
             ),
-            SizedBox(height: 5),
+            const SizedBox(height: 5),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
               child: ElevatedButton(
                 onPressed: () {
                   // Handle buy/sell directly
                 },
-                child: Text('Buy/Sell'),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.orangeAccent,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
                 ),
+                child: Text('Buy/Sell'),
               ),
             ),
           ],
@@ -104,7 +107,8 @@ class PetDetailScreen extends StatelessWidget {
   final String healthInfo;
   final String contact;
 
-  PetDetailScreen({
+  const PetDetailScreen({
+    super.key,
     required this.title,
     required this.imagePath,
     required this.price,
@@ -121,7 +125,7 @@ class PetDetailScreen extends StatelessWidget {
         title: Text(title),
         actions: [
           IconButton(
-            icon: Icon(Icons.shopping_cart),
+            icon: const Icon(Icons.shopping_cart),
             onPressed: () {
               // Handle add to cart
             },
@@ -138,44 +142,45 @@ class PetDetailScreen extends StatelessWidget {
                 borderRadius: BorderRadius.circular(15),
                 child: Image.asset(imagePath, height: 250, fit: BoxFit.cover),
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               Text(
                 title,
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                style:
+                    const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               ),
-              SizedBox(height: 8),
+              const SizedBox(height: 8),
               Text(
                 '\$$price',
-                style: TextStyle(fontSize: 20, color: Colors.green),
+                style: const TextStyle(fontSize: 20, color: Colors.green),
               ),
-              SizedBox(height: 8),
+              const SizedBox(height: 8),
               Row(
                 children: [
-                  Icon(Icons.location_on, color: Colors.grey),
-                  SizedBox(width: 5),
+                  const Icon(Icons.location_on, color: Colors.grey),
+                  const SizedBox(width: 5),
                   Text(location,
-                      style: TextStyle(fontSize: 16, color: Colors.grey)),
+                      style: const TextStyle(fontSize: 16, color: Colors.grey)),
                 ],
               ),
-              SizedBox(height: 16),
-              Text(
+              const SizedBox(height: 16),
+              const Text(
                 "Description",
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
               Text(description),
-              SizedBox(height: 16),
-              Text(
+              const SizedBox(height: 16),
+              const Text(
                 "Health Information",
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
               Text(healthInfo),
-              SizedBox(height: 16),
-              Text(
+              const SizedBox(height: 16),
+              const Text(
                 "Contact",
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
               Text(contact),
-              SizedBox(height: 30),
+              const SizedBox(height: 30),
               Column(
                 children: [
                   Row(
@@ -185,8 +190,8 @@ class PetDetailScreen extends StatelessWidget {
                         onPressed: () {
                           // Handle contact option
                         },
-                        icon: Icon(Icons.message),
-                        label: Text('Contact'),
+                        icon: const Icon(Icons.message),
+                        label: const Text('Contact'),
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.blue,
                           shape: RoundedRectangleBorder(
@@ -197,8 +202,8 @@ class PetDetailScreen extends StatelessWidget {
                         onPressed: () {
                           // Handle quick buy
                         },
-                        icon: Icon(Icons.shopping_bag),
-                        label: Text('Quick Buy'),
+                        icon: const Icon(Icons.shopping_bag),
+                        label: const Text('Quick Buy'),
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.green,
                           shape: RoundedRectangleBorder(
@@ -207,13 +212,13 @@ class PetDetailScreen extends StatelessWidget {
                       ),
                     ],
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   ElevatedButton.icon(
                     onPressed: () {
                       // Handle add to cart
                     },
-                    icon: Icon(Icons.add_shopping_cart),
-                    label: Text('Add to Cart'),
+                    icon: const Icon(Icons.add_shopping_cart),
+                    label: const Text('Add to Cart'),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.orange,
                       shape: RoundedRectangleBorder(

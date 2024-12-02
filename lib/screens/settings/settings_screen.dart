@@ -7,23 +7,25 @@ import 'package:pet_care_app/screens/settings/logoutScreen.dart';
 import 'package:pet_care_app/screens/settings/paymentConnectionScreen.dart';
 
 class SettingsScreen extends StatelessWidget {
+  const SettingsScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Settings'),
-        backgroundColor: Colors.green,
+        title: const Text('Settings'),
+        backgroundColor: const Color.fromARGB(255, 255, 255, 255),
       ),
       body: ListView(
-        padding: EdgeInsets.all(10),
+        padding: const EdgeInsets.all(10),
         children: [
           _buildSettingsItem(context, Icons.person_add, 'Add New User Account',
               AddUserScreen()),
           _buildSettingsItem(context, Icons.pets, 'Create New Pet Profile',
-              CreatePetProfileScreen()),
+              CreateEditPetScreen()),
           _buildSettingsItem(
               context, Icons.lock, 'Change Password', ChangePasswordScreen()),
-          _buildSettingsItem(context, Icons.logout, 'Log Out', LogoutScreen()),
+          _buildSettingsItem(context, Icons.logout, 'Log Out', LogoutButton()),
           _buildSettingsItem(context, Icons.payment, 'Payment Connection',
               PaymentConnectionScreen()),
           _buildSettingsItem(context, Icons.support, 'Contact Support',
@@ -40,8 +42,8 @@ class SettingsScreen extends StatelessWidget {
       elevation: 4,
       child: ListTile(
         leading: Icon(icon, color: Colors.green, size: 30),
-        title: Text(title, style: TextStyle(fontSize: 18)),
-        trailing: Icon(Icons.arrow_forward_ios),
+        title: Text(title, style: const TextStyle(fontSize: 18)),
+        trailing: const Icon(Icons.arrow_forward_ios),
         onTap: () {
           Navigator.push(
             context,

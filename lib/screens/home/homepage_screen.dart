@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'vetbooking_screen.dart';
-import 'petfood_screen.dart';
-import 'healthrecord_screen.dart';
-import 'petmarket_screen.dart';
-import 'userprofile_screen.dart';
-import 'petprofile_screen.dart';
-import 'settings/settings_screen.dart';
+import 'package:pet_care_app/screens/home/healthrecord_screen.dart';
+import 'package:pet_care_app/screens/home/petfood_screen.dart';
+import 'package:pet_care_app/screens/home/petmarket_screen.dart';
+import 'package:pet_care_app/screens/home/petprofile_screen.dart';
+import 'package:pet_care_app/screens/home/userprofile_screen.dart';
+import 'package:pet_care_app/screens/home/vetbooking_screen.dart';
+import 'package:pet_care_app/screens/settings/settings_screen.dart';
 
 class Homepage extends StatefulWidget {
   @override

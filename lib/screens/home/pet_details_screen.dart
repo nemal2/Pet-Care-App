@@ -8,19 +8,21 @@ class PetDetailsScreen extends StatelessWidget {
   final double price;
 
   const PetDetailsScreen({
+    Key? key,
     required this.title,
     required this.imagePath,
     required this.description,
     this.supermarket = 'Pet Supermarket', // default supermarket
     required this.price,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final Map arguments = ModalRoute.of(context)!.settings.arguments as Map;
     return Scaffold(
       backgroundColor: Colors.grey[100],
       appBar: AppBar(
-        title: Text(title),
+        title: Text(arguments['title']),
         backgroundColor: Colors.green,
       ),
       body: Column(
@@ -34,7 +36,7 @@ class PetDetailsScreen extends StatelessWidget {
                 Container(
                   decoration: BoxDecoration(
                     image: DecorationImage(
-                      image: AssetImage(imagePath),
+                      image: AssetImage(arguments['imagePath']),
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -44,7 +46,7 @@ class PetDetailsScreen extends StatelessWidget {
                   color: Colors.black.withOpacity(0.4),
                   alignment: Alignment.center,
                   child: Text(
-                    title,
+                    arguments['title'],
                     style: TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
@@ -63,17 +65,17 @@ class PetDetailsScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    description,
+                    arguments['description'],
                     style: TextStyle(fontSize: 16, color: Colors.black87),
                   ),
                   SizedBox(height: 10),
                   Text(
-                    'Supermarket: $supermarket',
+                    'Supermarket: ${arguments['supermarket'] ?? 'Pet Supermarket'}',
                     style: TextStyle(fontSize: 14, color: Colors.grey[700]),
                   ),
                   SizedBox(height: 10),
                   Text(
-                    'Price: \$${price.toStringAsFixed(2)}',
+                    'Price: \$${arguments['price'].toStringAsFixed(2)}',
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,

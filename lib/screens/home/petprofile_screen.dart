@@ -1,54 +1,83 @@
 import 'package:flutter/material.dart';
+import 'package:pet_care_app/screens/settings/createPetProfileScreen.dart';
 
-class PetProfileScreen extends StatelessWidget {
+import 'package:pet_care_app/services/pet_service.dart';
+
+class PetProfileScreen extends StatefulWidget {
+  @override
+  _PetProfileScreenState createState() => _PetProfileScreenState();
+}
+
+class _PetProfileScreenState extends State<PetProfileScreen> {
+  final PetService _petService = PetService();
+  List<Map<String, dynamic>> _petProfiles = [];
+  bool _isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchPetProfiles();
+  }
+
+  Future<void> _fetchPetProfiles() async {
+    try {
+      final profiles = await _petService.getPetProfiles();
+      setState(() {
+        _petProfiles = profiles;
+        _isLoading = false;
+      });
+    } catch (e) {
+      print('Error fetching pet profiles: $e');
+      setState(() {
+        _isLoading = false;
+      });
+    }
+  }
+
+  void _navigateToCreateEditPetScreen([Map<String, dynamic>? petData]) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => CreateEditPetScreen(
+          petId: petData?['id'],
+          petData: petData,
+        ),
+      ),
+    ).then((_) => _fetchPetProfiles());
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Pet Profile'),
-        backgroundColor: Colors.teal,
+        title: Text('Pet Profiles'),
+        backgroundColor: Colors.green,
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            CircleAvatar(
-              radius: 50,
-              backgroundImage: AssetImage('assets/onboarding/pet2.jpg'),
-            ),
-            SizedBox(height: 16),
-            Text(
-              'Buddy',
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: 8),
-            Text(
-              'Golden Retriever',
-              style: TextStyle(fontSize: 16, color: Colors.grey),
-            ),
-            SizedBox(height: 16),
-            ElevatedButton.icon(
-              onPressed: () {
-                // Edit pet profile functionality here
+      body: _isLoading
+          ? Center(child: CircularProgressIndicator())
+          : ListView.builder(
+              itemCount: _petProfiles.length,
+              itemBuilder: (context, index) {
+                final pet = _petProfiles[index];
+                return Card(
+                  child: ListTile(
+                    leading: CircleAvatar(
+                      backgroundImage: AssetImage('assets/onboarding/pet2.jpg'),
+                    ),
+                    title: Text(pet['name']),
+                    subtitle: Text(pet['breed']),
+                    trailing: IconButton(
+                      icon: Icon(Icons.edit, color: Colors.teal),
+                      onPressed: () => _navigateToCreateEditPetScreen(pet),
+                    ),
+                  ),
+                );
               },
-              icon: Icon(Icons.edit, color: Colors.white),
-              label: Text('Edit Pet Profile'),
-              style: ElevatedButton.styleFrom(backgroundColor: Colors.teal),
             ),
-            SizedBox(height: 16),
-            ListTile(
-              leading: Icon(Icons.pets, color: Colors.teal),
-              title: Text('Age'),
-              subtitle: Text('3 years'),
-            ),
-            ListTile(
-              leading: Icon(Icons.monitor_heart, color: Colors.teal),
-              title: Text('Health Status'),
-              subtitle: Text('Healthy'),
-            ),
-          ],
-        ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => _navigateToCreateEditPetScreen(),
+        backgroundColor: Colors.green,
+        child: Icon(Icons.add),
       ),
     );
   }

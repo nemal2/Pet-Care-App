@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 
 class VetBookingScreen extends StatelessWidget {
+  const VetBookingScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Vet Booking'),
+        title: const Text('Vet Booking'),
       ),
       body: GridView.count(
-        padding: EdgeInsets.all(10),
+        padding: const EdgeInsets.all(10),
         crossAxisCount: 2,
         crossAxisSpacing: 10,
         mainAxisSpacing: 10,
@@ -49,7 +51,8 @@ class VetBookingScreen extends StatelessWidget {
           children: [
             Expanded(
               child: ClipRRect(
-                borderRadius: BorderRadius.vertical(top: Radius.circular(15)),
+                borderRadius:
+                    const BorderRadius.vertical(top: Radius.circular(15)),
                 child: Image.asset(imagePath, fit: BoxFit.cover),
               ),
             ),
@@ -57,20 +60,20 @@ class VetBookingScreen extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: Text(
                 name,
-                style: TextStyle(
+                style: const TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
                     color: Colors.black),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 8.0),
               child: Text(
                 'Veterinarian',
                 style: TextStyle(fontSize: 14, color: Colors.grey),
               ),
             ),
-            SizedBox(height: 5),
+            const SizedBox(height: 5),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
               child: ElevatedButton(
@@ -81,13 +84,13 @@ class VetBookingScreen extends StatelessWidget {
                         builder: (context) => BookingPage(name: name)),
                   );
                 },
-                child: Text('Book'),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.green,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
                 ),
+                child: Text('Book'),
               ),
             ),
           ],
@@ -105,7 +108,8 @@ class VetDetailScreen extends StatelessWidget {
   final String description;
   final String contact;
 
-  VetDetailScreen({
+  const VetDetailScreen({
+    super.key,
     required this.name,
     required this.imagePath,
     required this.clinicImagePath,
@@ -130,43 +134,44 @@ class VetDetailScreen extends StatelessWidget {
                 borderRadius: BorderRadius.circular(15),
                 child: Image.asset(imagePath, height: 250, fit: BoxFit.cover),
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               Text(
                 name,
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                style:
+                    const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               ),
-              SizedBox(height: 8),
-              Text(
+              const SizedBox(height: 8),
+              const Text(
                 "Location:",
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
               Row(
                 children: [
-                  Icon(Icons.location_on, color: Colors.grey),
-                  SizedBox(width: 5),
+                  const Icon(Icons.location_on, color: Colors.grey),
+                  const SizedBox(width: 5),
                   Text(location,
-                      style: TextStyle(fontSize: 16, color: Colors.grey)),
+                      style: const TextStyle(fontSize: 16, color: Colors.grey)),
                 ],
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               ClipRRect(
                 borderRadius: BorderRadius.circular(15),
                 child: Image.asset(clinicImagePath,
                     height: 150, fit: BoxFit.cover),
               ),
-              SizedBox(height: 16),
-              Text(
+              const SizedBox(height: 16),
+              const Text(
                 "Description",
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
               Text(description),
-              SizedBox(height: 16),
-              Text(
+              const SizedBox(height: 16),
+              const Text(
                 "Contact",
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
               Text(contact),
-              SizedBox(height: 30),
+              const SizedBox(height: 30),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -174,8 +179,8 @@ class VetDetailScreen extends StatelessWidget {
                     onPressed: () {
                       // Handle contact option
                     },
-                    icon: Icon(Icons.message),
-                    label: Text('Contact'),
+                    icon: const Icon(Icons.message),
+                    label: const Text('Contact'),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.blue,
                       shape: RoundedRectangleBorder(
@@ -190,8 +195,8 @@ class VetDetailScreen extends StatelessWidget {
                             builder: (context) => BookingPage(name: name)),
                       );
                     },
-                    icon: Icon(Icons.book_online),
-                    label: Text('Quick Book'),
+                    icon: const Icon(Icons.book_online),
+                    label: const Text('Quick Book'),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.green,
                       shape: RoundedRectangleBorder(
@@ -211,7 +216,7 @@ class VetDetailScreen extends StatelessWidget {
 class BookingPage extends StatelessWidget {
   final String name;
 
-  BookingPage({required this.name});
+  const BookingPage({super.key, required this.name});
 
   @override
   Widget build(BuildContext context) {
@@ -224,26 +229,26 @@ class BookingPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Text(
+            const Text(
               "Select Date",
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             // Date Picker Widget here
             TextFormField(
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                   border: OutlineInputBorder(), hintText: "Select Date"),
               onTap: () {
                 // Open date picker
               },
             ),
-            SizedBox(height: 20),
-            Text(
+            const SizedBox(height: 20),
+            const Text(
               "Available Slots",
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
-            SizedBox(height: 10),
-            Wrap(
+            const SizedBox(height: 10),
+            const Wrap(
               spacing: 10,
               children: [
                 Chip(label: Text("10:00 AM")),
@@ -252,24 +257,24 @@ class BookingPage extends StatelessWidget {
                 Chip(label: Text("2:30 PM")),
               ],
             ),
-            SizedBox(height: 20),
-            Text(
+            const SizedBox(height: 20),
+            const Text(
               "Booking Charges",
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
-            Text("\$50 per consultation"),
-            Spacer(),
+            const Text("\$50 per consultation"),
+            const Spacer(),
             ElevatedButton(
               onPressed: () {
                 // Handle final booking confirmation
               },
-              child: Text('Confirm Booking'),
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.green,
-                padding: EdgeInsets.symmetric(vertical: 16),
+                padding: const EdgeInsets.symmetric(vertical: 16),
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10)),
               ),
+              child: Text('Confirm Booking'),
             ),
           ],
         ),

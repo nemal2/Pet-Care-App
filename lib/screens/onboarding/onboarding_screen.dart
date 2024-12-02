@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class OnboardingScreen extends StatelessWidget {
+  const OnboardingScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -11,7 +13,7 @@ class OnboardingScreen extends StatelessWidget {
           Container(
             height: MediaQuery.of(context).size.height *
                 0.7, // Covers 60% of the screen
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               image: DecorationImage(
                 image: AssetImage(
                     'assets/onboarding/on.jpg'), // Ensure this path is correct
@@ -23,10 +25,10 @@ class OnboardingScreen extends StatelessWidget {
           Align(
             alignment: Alignment.bottomCenter,
             child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 40),
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 40),
               decoration: BoxDecoration(
                 color: Colors.green.shade700,
-                borderRadius: BorderRadius.only(
+                borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(30),
                   topRight: Radius.circular(30),
                 ),
@@ -41,7 +43,7 @@ class OnboardingScreen extends StatelessWidget {
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
                       shadows: [
-                        Shadow(
+                        const Shadow(
                           color: Colors.black38,
                           blurRadius: 8,
                           offset: Offset(0, 3),
@@ -50,7 +52,7 @@ class OnboardingScreen extends StatelessWidget {
                     ),
                     textAlign: TextAlign.center,
                   ),
-                  SizedBox(height: 35),
+                  const SizedBox(height: 35),
                   Text(
                     'Your one-stop solution for all pet care needs',
                     textAlign: TextAlign.center,
@@ -60,11 +62,22 @@ class OnboardingScreen extends StatelessWidget {
                       height: 1.5,
                     ),
                   ),
-                  SizedBox(height: 40),
+                  const SizedBox(height: 40),
                   ElevatedButton(
                     onPressed: () {
                       Navigator.pushNamed(context, '/login');
                     },
+                    style: ElevatedButton.styleFrom(
+                      foregroundColor: Colors.green.shade700,
+                      backgroundColor: Colors.white,
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 40, vertical: 15),
+                      textStyle: const TextStyle(fontSize: 18),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                      elevation: 10,
+                    ),
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
@@ -75,17 +88,6 @@ class OnboardingScreen extends StatelessWidget {
                         SizedBox(width: 10),
                         Icon(Icons.arrow_forward),
                       ],
-                    ),
-                    style: ElevatedButton.styleFrom(
-                      foregroundColor: Colors.green.shade700,
-                      backgroundColor: Colors.white,
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 40, vertical: 15),
-                      textStyle: TextStyle(fontSize: 18),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30),
-                      ),
-                      elevation: 10,
                     ),
                   ),
                 ],

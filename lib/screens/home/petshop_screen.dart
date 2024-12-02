@@ -2,15 +2,17 @@ import 'package:flutter/material.dart';
 import 'pet_details_screen.dart';
 
 class PetShopScreen extends StatelessWidget {
+  const PetShopScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Pet Shop'),
+        title: const Text('Pet Shop'),
         backgroundColor: Colors.green,
       ),
       body: ListView(
-        padding: EdgeInsets.all(10),
+        padding: const EdgeInsets.all(10),
         children: [
           _buildPetShopItem(context, 'Dog Food', 'assets/static/food1.jpg',
               20.0, 'High-quality dog food for your pet.'),
@@ -46,7 +48,7 @@ class PetShopScreen extends StatelessWidget {
           leading: Image.asset(imagePath, height: 50),
           title: Text(title),
           subtitle: Text('\$$price'),
-          trailing: Icon(Icons.info_outline),
+          trailing: const Icon(Icons.info_outline),
         ),
       ),
     );

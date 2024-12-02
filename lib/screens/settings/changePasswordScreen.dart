@@ -1,42 +1,45 @@
 import 'package:flutter/material.dart';
+import 'package:pet_care_app/services/auth_service.dart';
 
 class ChangePasswordScreen extends StatelessWidget {
+  ChangePasswordScreen({super.key});
+
+  final _authService = AuthService();
+  final _passwordController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Change Password'),
+        title: const Text('Change Password'),
         backgroundColor: Colors.green,
       ),
       body: Padding(
-        padding: EdgeInsets.all(20),
+        padding: const EdgeInsets.all(20),
         child: ListView(
           children: [
             TextField(
-              obscureText: true,
-              decoration: InputDecoration(
-                  labelText: 'Current Password', border: OutlineInputBorder()),
-            ),
-            SizedBox(height: 10),
-            TextField(
-              obscureText: true,
-              decoration: InputDecoration(
+              controller: _passwordController,
+              decoration: const InputDecoration(
                   labelText: 'New Password', border: OutlineInputBorder()),
-            ),
-            SizedBox(height: 10),
-            TextField(
               obscureText: true,
-              decoration: InputDecoration(
-                  labelText: 'Confirm New Password',
-                  border: OutlineInputBorder()),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             ElevatedButton(
-              onPressed: () {
-                // Change password logic
+              onPressed: () async {
+                try {
+                  await _authService.updatePassword(_passwordController.text);
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Password updated!')),
+                  );
+                } catch (e) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text(e.toString())),
+                  );
+                }
               },
               style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
-              child: Text('Change Password'),
+              child: const Text('Update Password'),
             ),
           ],
         ),
