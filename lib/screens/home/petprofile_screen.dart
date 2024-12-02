@@ -51,7 +51,7 @@ class _PetProfileScreenState extends State<PetProfileScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Pet Profiles'),
-        backgroundColor: Colors.green,
+        backgroundColor: const Color.fromARGB(255, 249, 249, 249),
       ),
       body: _isLoading
           ? Center(child: CircularProgressIndicator())

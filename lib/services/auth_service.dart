@@ -52,6 +52,28 @@ class AuthService {
     await _auth.signOut();
   }
 
+  // Validate current password
+  Future<bool> validateCurrentPassword(String currentPassword) async {
+    try {
+      User? user = _auth.currentUser;
+      if (user == null) {
+        throw Exception('No user is currently logged in.');
+      }
+
+      // Re-authenticate user
+      AuthCredential credential = EmailAuthProvider.credential(
+        email: user.email!,
+        password: currentPassword,
+      );
+
+      await user.reauthenticateWithCredential(credential);
+      return true;
+    } catch (e) {
+      print('Error validating current password: $e');
+      return false;
+    }
+  }
+
   // Update password
   Future<void> updatePassword(String newPassword) async {
     try {

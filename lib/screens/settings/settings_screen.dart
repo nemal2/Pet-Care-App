@@ -25,7 +25,7 @@ class SettingsScreen extends StatelessWidget {
               CreateEditPetScreen()),
           _buildSettingsItem(
               context, Icons.lock, 'Change Password', ChangePasswordScreen()),
-          _buildSettingsItem(context, Icons.logout, 'Log Out', LogoutButton()),
+          _buildSettingsItem(context, Icons.logout, 'Log Out', LogoutScreen()),
           _buildSettingsItem(context, Icons.payment, 'Payment Connection',
               PaymentConnectionScreen()),
           _buildSettingsItem(context, Icons.support, 'Contact Support',
