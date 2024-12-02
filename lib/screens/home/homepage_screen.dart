@@ -9,7 +9,7 @@ import 'package:pet_care_app/screens/settings/settings_screen.dart';
 import 'package:pet_care_app/services/pet_service.dart';
 
 class Homepage extends StatefulWidget {
-  const Homepage({Key? key}) : super(key: key);
+  const Homepage({super.key});
 
   @override
   _HomepageState createState() => _HomepageState();
@@ -20,15 +20,6 @@ class _HomepageState extends State<Homepage> {
   String? _selectedPetId;
   List<Map<String, dynamic>> _pets = [];
   final PetService _petService = PetService();
-
-  final List<Widget> _widgetOptions = <Widget>[
-    const VetBookingScreen(),
-    const PetFoodScreen(),
-    const PetMarketScreen(),
-    PetProfileScreen(),
-    const SettingsScreen(),
-    // Health record screen will be passed dynamically based on petId
-  ];
 
   @override
   void initState() {
@@ -41,8 +32,9 @@ class _HomepageState extends State<Homepage> {
       final pets = await _petService.getPetProfiles();
       setState(() {
         _pets = pets;
-        if (pets.isNotEmpty)
+        if (pets.isNotEmpty) {
           _selectedPetId = pets.first['id']; // Default to first pet
+        }
       });
     } catch (e) {
       print('Error fetching pets: $e');
@@ -53,29 +45,21 @@ class _HomepageState extends State<Homepage> {
     setState(() {
       _selectedIndex = index;
     });
-
-    if (_selectedIndex == 5 && _selectedPetId != null) {
-      // Navigate to Health Record screen
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => PetHealthRecordScreen(petId: _selectedPetId!),
-        ),
-      );
-    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Pet Care Home'),
+        title: const Text('Pet Care Pro'),
         backgroundColor: Colors.green,
         actions: [
           DropdownButton<String>(
             value: _selectedPetId,
-            hint: const Text('Select Pet',
-                style: TextStyle(color: Color.fromARGB(255, 235, 211, 211))),
+            hint: const Text(
+              'Select Pet',
+              style: TextStyle(color: Colors.white),
+            ),
             items: _pets.map((pet) {
               return DropdownMenuItem<String>(
                 value: pet['id'] as String,
@@ -89,7 +73,7 @@ class _HomepageState extends State<Homepage> {
             },
           ),
           IconButton(
-            icon: const Icon(Icons.person, size: 28),
+            icon: const Icon(Icons.person),
             onPressed: () {
               Navigator.push(
                 context,
@@ -102,7 +86,19 @@ class _HomepageState extends State<Homepage> {
       ),
       body: IndexedStack(
         index: _selectedIndex,
-        children: _widgetOptions,
+        children: [
+          const VetBookingScreen(),
+          const PetFoodScreen(),
+          const PetMarketScreen(),
+          PetProfileScreen(),
+          const SettingsScreen(),
+          if (_selectedPetId != null)
+            PetHealthRecordScreen(
+                key: ValueKey(_selectedPetId), petId: _selectedPetId!)
+          else
+            const Center(
+                child: Text('Please select a pet to view health records')),
+        ],
       ),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
@@ -132,7 +128,7 @@ class _HomepageState extends State<Homepage> {
           ),
         ],
         currentIndex: _selectedIndex,
-        selectedItemColor: Color.fromARGB(255, 234, 237, 234),
+        selectedItemColor: Colors.white,
         unselectedItemColor: Colors.grey[400],
         backgroundColor: Colors.green[800],
         onTap: _onItemTapped,
