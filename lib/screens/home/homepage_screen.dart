@@ -8,6 +8,10 @@ import 'package:pet_care_app/screens/home/vetbooking_screen.dart';
 import 'package:pet_care_app/screens/settings/settings_screen.dart';
 
 class Homepage extends StatefulWidget {
+  final String petId; // Add petId to pass to PetHealthRecordScreen
+
+  const Homepage({required this.petId, Key? key}) : super(key: key);
+
   @override
   _HomepageState createState() => _HomepageState();
 }
@@ -15,14 +19,21 @@ class Homepage extends StatefulWidget {
 class _HomepageState extends State<Homepage> {
   int _selectedIndex = 0; // Adjust starting index as needed
 
-  static final List<Widget> _widgetOptions = <Widget>[
-    VetBookingScreen(),
-    PetFoodScreen(),
-    PetHealthRecordScreen(),
-    PetMarketScreen(),
-    PetProfileScreen(),
-    SettingsScreen(),
-  ];
+  late final List<Widget> _widgetOptions;
+
+  @override
+  void initState() {
+    super.initState();
+    // Initialize the widget options list here to use the petId
+    _widgetOptions = <Widget>[
+      const VetBookingScreen(),
+      const PetFoodScreen(),
+      PetHealthRecordScreen(petId: widget.petId), // Pass petId here
+      const PetMarketScreen(),
+      PetProfileScreen(),
+      const SettingsScreen(),
+    ];
+  }
 
   void _onItemTapped(int index) {
     setState(() {
@@ -34,15 +45,16 @@ class _HomepageState extends State<Homepage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Pet Care Home'),
+        title: const Text('Pet Care Home'),
         backgroundColor: Colors.green,
         actions: [
           IconButton(
-            icon: Icon(Icons.person, size: 28),
+            icon: const Icon(Icons.person, size: 28),
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => UserProfileScreen()),
+                MaterialPageRoute(
+                    builder: (context) => const UserProfileScreen()),
               );
             },
           ),

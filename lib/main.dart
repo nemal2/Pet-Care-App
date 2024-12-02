@@ -35,13 +35,18 @@ class MyApp extends StatelessWidget {
       onGenerateRoute: (settings) {
         switch (settings.name) {
           case '/':
-            return MaterialPageRoute(builder: (context) => OnboardingScreen());
+            return MaterialPageRoute(
+                builder: (context) => const OnboardingScreen());
           case '/login':
-            return MaterialPageRoute(builder: (context) => LoginScreen());
+            return MaterialPageRoute(builder: (context) => const LoginScreen());
           case '/signup':
-            return MaterialPageRoute(builder: (context) => SignupScreen());
+            return MaterialPageRoute(
+                builder: (context) => const SignupScreen());
           case '/home':
-            return MaterialPageRoute(builder: (context) => Homepage());
+            return MaterialPageRoute(
+              builder: (context) => Homepage(
+                  petId: 'default-pet-id'), // Pass a default petId here
+            );
           case '/welcome':
             return MaterialPageRoute(builder: (context) => WelcomeScreen());
           case '/petprofile':
@@ -54,8 +59,21 @@ class MyApp extends StatelessWidget {
           case '/petfood':
             return MaterialPageRoute(builder: (context) => PetFoodScreen());
           case '/healthrecord':
-            return MaterialPageRoute(
-                builder: (context) => PetHealthRecordScreen());
+            if (settings.arguments != null && settings.arguments is String) {
+              final petId = settings.arguments as String;
+              return MaterialPageRoute(
+                builder: (context) => PetHealthRecordScreen(petId: petId),
+              );
+            } else {
+              // Handle the case where petId is not provided
+              return MaterialPageRoute(
+                builder: (context) => const Scaffold(
+                  body: Center(
+                    child: Text('Pet ID is required to access health records.'),
+                  ),
+                ),
+              );
+            }
           case '/userprofile':
             return MaterialPageRoute(builder: (context) => UserProfileScreen());
           case '/settings':
@@ -78,7 +96,8 @@ class MyApp extends StatelessWidget {
               );
             } else {
               // Handle the case where arguments are not provided or are incorrect
-              return MaterialPageRoute(builder: (context) => Homepage());
+              return MaterialPageRoute(
+                  builder: (context) => Homepage(petId: 'default-pet-id'));
             }
           default:
             return null;
