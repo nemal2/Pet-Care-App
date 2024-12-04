@@ -14,7 +14,7 @@ class AuthService {
       );
       User? user = result.user;
 
-      // Add user profile to Firestore
+      // Add user profile to Firestore ###### but do bot store password in the database
       await _firestore.collection('users').doc(user!.uid).set({
         'name': name,
         'email': email,

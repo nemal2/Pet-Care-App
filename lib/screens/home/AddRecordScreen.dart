@@ -1,3 +1,4 @@
+// ignore: file_names
 import 'package:flutter/material.dart';
 
 class AddRecordScreen extends StatelessWidget {
@@ -5,10 +6,10 @@ class AddRecordScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _titleController = TextEditingController();
-    final _dateController = TextEditingController();
-    final _treatmentController = TextEditingController();
-    final _vetController = TextEditingController();
+    final titleController = TextEditingController();
+    final dateController = TextEditingController();
+    final treatmentController = TextEditingController();
+    final vetController = TextEditingController();
 
     return Scaffold(
       appBar: AppBar(title: const Text('Add Record')),
@@ -17,24 +18,24 @@ class AddRecordScreen extends StatelessWidget {
         child: Column(
           children: [
             TextField(
-                controller: _titleController,
+                controller: titleController,
                 decoration: const InputDecoration(labelText: 'Title')),
             TextField(
-                controller: _dateController,
+                controller: dateController,
                 decoration: const InputDecoration(labelText: 'Date')),
             TextField(
-                controller: _treatmentController,
+                controller: treatmentController,
                 decoration: const InputDecoration(labelText: 'Treatment')),
             TextField(
-                controller: _vetController,
+                controller: vetController,
                 decoration: const InputDecoration(labelText: 'Vet')),
             ElevatedButton(
               onPressed: () {
                 Navigator.pop(context, {
-                  'title': _titleController.text,
-                  'date': _dateController.text,
-                  'treatment': _treatmentController.text,
-                  'vet': _vetController.text,
+                  'title': titleController.text,
+                  'date': dateController.text,
+                  'treatment': treatmentController.text,
+                  'vet': vetController.text,
                 });
               },
               child: const Text('Save'),

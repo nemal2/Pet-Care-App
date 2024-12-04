@@ -28,6 +28,7 @@ class _AuthScreenState extends State<AuthScreen> {
     try {
       await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
+      // ignore: use_build_context_synchronously
       Navigator.pushReplacementNamed(context, '/home');
     } catch (e) {
       print("Signup failed: $e");

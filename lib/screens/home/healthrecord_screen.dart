@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pet_care_app/screens/home/AddRecScreen.dart';
-import 'package:pet_care_app/services/pet_service.dart';
+//import 'package:pet_care_app/services/pet_service.dart';
 import 'package:pet_care_app/services/vaccine_service.dart';
 
 class PetHealthRecordScreen extends StatefulWidget {
@@ -14,7 +14,7 @@ class PetHealthRecordScreen extends StatefulWidget {
 }
 
 class _PetHealthRecordScreenState extends State<PetHealthRecordScreen> {
-  final PetService _petService = PetService();
+  //final PetService _petService = PetService();
   final VaccineService _vaccineService = VaccineService();
 
   List<Map<String, dynamic>> _records = [];
